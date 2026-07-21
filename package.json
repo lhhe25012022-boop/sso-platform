@@ -1,0 +1,22 @@
+{
+  "name": "sso-platform",
+  "version": "1.0.0",
+  "description": "Enterprise SSO Platform with PingOne Integration",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "idp/*",
+    "infra/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspaces",
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces",
+    "lint": "npm run lint --workspaces",
+    "start:all": "concurrently \"npm run start -w apps/app-a\" \"npm run start -w apps/app-b\" \"npm run start -w apps/app-c\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}
