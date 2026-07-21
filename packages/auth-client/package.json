@@ -1,0 +1,22 @@
+{
+  "name": "@sso-platform/auth-client",
+  "version": "1.0.0",
+  "description": "Shared SSO authentication client library",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "jsonwebtoken": "^9.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/jsonwebtoken": "^9.0.0",
+    "typescript": "^5.0.0"
+  }
+}
