@@ -1,0 +1,88 @@
+version: '3.8'
+
+services:
+  app-a-server:
+    build:
+      context: ../apps/app-a/server
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - PINGONE_CLIENT_ID=${PINGONE_CLIENT_ID}
+      - PINGONE_CLIENT_SECRET=${PINGONE_CLIENT_SECRET}
+      - PINGONE_ENVIRONMENT_ID=${PINGONE_ENVIRONMENT_ID}
+      - APP_A_PORT=3001
+      - FRONTEND_URL=http://localhost:3000
+    networks:
+      - sso-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  app-b-server:
+    build:
+      context: ../apps/app-b/server
+      dockerfile: Dockerfile
+    ports:
+      - "3002:3002"
+    environment:
+      - NODE_ENV=development
+      - PINGONE_CLIENT_ID=${PINGONE_CLIENT_ID}
+      - PINGONE_CLIENT_SECRET=${PINGONE_CLIENT_SECRET}
+      - PINGONE_ENVIRONMENT_ID=${PINGONE_ENVIRONMENT_ID}
+      - APP_B_PORT=3002
+      - FRONTEND_URL=http://localhost:3100
+    networks:
+      - sso-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  app-c-server:
+    build:
+      context: ../apps/app-c/server
+      dockerfile: Dockerfile
+    ports:
+      - "3003:3003"
+    environment:
+      - NODE_ENV=development
+      - PINGONE_CLIENT_ID=${PINGONE_CLIENT_ID}
+      - PINGONE_CLIENT_SECRET=${PINGONE_CLIENT_SECRET}
+      - PINGONE_ENVIRONMENT_ID=${PINGONE_ENVIRONMENT_ID}
+      - APP_C_PORT=3003
+      - FRONTEND_URL=http://localhost:3200
+    networks:
+      - sso-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3003/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  idp-server:
+    build:
+      context: ../idp/server
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=development
+      - PINGONE_ENVIRONMENT_ID=${PINGONE_ENVIRONMENT_ID}
+      - PINGONE_ADMIN_TOKEN=${PINGONE_ADMIN_TOKEN}
+      - IDP_PORT=4000
+    networks:
+      - sso-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  sso-network:
+    driver: bridge

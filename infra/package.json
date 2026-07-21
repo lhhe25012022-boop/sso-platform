@@ -1,0 +1,9 @@
+{
+  "name": "infra",
+  "version": "1.0.0",
+  "description": "Infrastructure as Code for SSO Platform",
+  "scripts": {
+    "validate": "node scripts/validate.js",
+    "generate-docs": "node scripts/generate-docs.js"
+  }
+}
