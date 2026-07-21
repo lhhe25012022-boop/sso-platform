@@ -12,8 +12,8 @@ npm install @sso-platform/auth-client
 
 ### Initialize Client
 
-```typescript
-import { PingOneClient } from '@sso-platform/auth-client';
+```javascript
+const { PingOneClient } = require('@sso-platform/auth-client');
 
 const authClient = new PingOneClient({
   clientId: process.env.PINGONE_CLIENT_ID,
@@ -26,15 +26,15 @@ const authClient = new PingOneClient({
 
 ### Generate Authorization URL
 
-```typescript
-const state = crypto.randomBytes(16).toString('hex');
+```javascript
+const state = require('crypto').randomBytes(16).toString('hex');
 const authUrl = authClient.getAuthorizationUrl(state);
 // Redirect user to authUrl
 ```
 
 ### Exchange Authorization Code
 
-```typescript
+```javascript
 const tokens = await authClient.exchangeCode(code);
 console.log(tokens.access_token);
 console.log(tokens.id_token);
@@ -42,7 +42,7 @@ console.log(tokens.id_token);
 
 ### Get User Information
 
-```typescript
+```javascript
 const userInfo = await authClient.getUserInfo(tokens.access_token);
 console.log(userInfo.email);
 console.log(userInfo.given_name);
@@ -50,13 +50,13 @@ console.log(userInfo.given_name);
 
 ### Refresh Token
 
-```typescript
+```javascript
 const newTokens = await authClient.refreshToken(refreshToken);
 ```
 
 ### Logout
 
-```typescript
+```javascript
 const logoutUrl = authClient.getLogoutUrl(idToken);
 // Redirect user to logoutUrl
 ```
@@ -65,53 +65,26 @@ const logoutUrl = authClient.getLogoutUrl(idToken);
 
 ### `PingOneClient`
 
-#### `constructor(config: PingOneConfig)`
+#### `constructor(config)`
+Initialize the PingOne client with configuration.
 
-#### `getAuthorizationUrl(state: string, nonce?: string): string`
+#### `getAuthorizationUrl(state, nonce)`
 Generate OAuth2 authorization URL.
 
-#### `exchangeCode(code: string): Promise<TokenResponse>`
+#### `exchangeCode(code)`
 Exchange authorization code for tokens.
 
-#### `getUserInfo(accessToken: string): Promise<UserInfo>`
-Fetch user information.
+#### `getUserInfo(accessToken)`
+Fetch user information using access token.
 
-#### `refreshToken(refreshToken: string): Promise<TokenResponse>`
-Refresh access token.
+#### `refreshToken(refreshToken)`
+Refresh access token using refresh token.
 
-#### `getLogoutUrl(idToken?: string): string`
+#### `getLogoutUrl(idToken)`
 Generate logout URL.
 
-#### `decodeIdToken(idToken: string): UserInfo`
+#### `decodeIdToken(idToken)`
 Decode ID token payload.
 
-## Types
-
-```typescript
-interface PingOneConfig {
-  clientId: string;
-  clientSecret?: string;
-  environmentId: string;
-  region: 'NorthAmerica' | 'Europe' | 'AsiaPacific';
-  redirectUri: string;
-  scopes?: string[];
-}
-
-interface TokenResponse {
-  access_token: string;
-  id_token: string;
-  refresh_token?: string;
-  expires_in: number;
-  token_type: string;
-}
-
-interface UserInfo {
-  sub: string;
-  email: string;
-  given_name?: string;
-  family_name?: string;
-  name?: string;
-  picture?: string;
-  email_verified?: boolean;
-}
-```
+#### `verifyIdToken(idToken, publicKey)`
+Verify and decode ID token.
