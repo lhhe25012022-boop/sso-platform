@@ -1,0 +1,22 @@
+{
+  "name": "app-a",
+  "version": "1.0.0",
+  "description": "SSO Platform - Application A",
+  "main": "server/dist/index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace=./server\" \"npm run dev --workspace=./client\"",
+    "build": "npm run build --workspaces",
+    "start": "node server/dist/index.js",
+    "test": "npm run test --workspaces"
+  },
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "dependencies": {
+    "@sso-platform/auth-client": "*"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}
